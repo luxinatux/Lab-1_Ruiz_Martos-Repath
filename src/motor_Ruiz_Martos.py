@@ -1,8 +1,10 @@
 """
     @file           TP_motor.py
     @brief          Driver class that sets up and controls motors.
-    @author         Dylan Ruiz
-                    Lucas Martos-Repath
+    @details        Defines functions used in the task_encoder.
+    @author Dylan Ruiz
+    @author Lucas Martos-Repath
+    @date   January 26, 2022
         
 """
 
