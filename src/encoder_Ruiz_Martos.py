@@ -58,7 +58,7 @@ class Encoder:
             @details            Updated the encoder position and delta, as well
                                 as accounting for overflow
         '''
-        self.stop_1 = abs(self.tim4.counter())
+        self.stop_1 = abs(self.tim.counter())
         
         self.delta_1 = self.stop_1 - self.start_1
         
