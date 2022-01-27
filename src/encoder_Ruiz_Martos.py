@@ -16,9 +16,13 @@ class Encoder:
     '''
     def __init__(self, chanA, chanB, timer):
         ''' @brief              Constructs an Encoder object
-            @details            Initializes pin and timers, configures channels
+            @details            Attaches pins and timers, configures channels
                                 and sets the value of parameters to be used
-                                in encoder functions
+                                in encoder functions. Initialization of pin object must
+                                be done in Main. Initialization of timer occurs in init
+            @param chanA        The pyb.pin() object for the first encoder channel pin
+            @param chanB        The pyb.pin() object for the second encoder channel pin
+            @param timer        The integer value of the timer channel wanted for the encoder
         '''
         ## The positions of encoder 1
         self.pos_1 = 0
@@ -27,20 +31,20 @@ class Encoder:
         ## The change in position for encoder 1 
         self.delta_1 = 0
             
-        ## Initializez the B6 pin
-        self.pinB6 = chanA
-        ## Initializes the B7 Pin
-        self.pinB7 = chanB
+        ## Attaches the A pin
+        self.pinA = chanA
+        ## Attaches the B Pin
+        self.pinB = chanB
         
         
         
-        ## Initializes timer 4
-        self.tim4 = pyb.Timer(timer, prescaler = 0, period = 65535) 
+        ## Initializes timer to the channel n selected by timer input variable
+        self.tim = pyb.Timer(timer, prescaler = 0, period = 65535) 
         
-        ## Configures channel 1 for timer 4
-        self.t4ch1 = self.tim4.channel(1, pyb.Timer.ENC_A, pin=self.pinB6)
-        ## Configures channel 2 for timer 4
-        self.t4ch2 = self.tim4.channel(2, pyb.Timer.ENC_B, pin=self.pinB7)
+        ## Configures channel 1 for timer n, using pin a as input
+        self.tch1 = self.tim.channel(1, pyb.Timer.ENC_A, pin=self.pinA)
+        ## Configures channel 2 for timer n, using pin b as input
+        self.tch2 = self.tim.channel(2, pyb.Timer.ENC_B, pin=self.pinB)
 
         
         ## Last position of encoder 1 when calculating delta
@@ -85,7 +89,7 @@ class Encoder:
             @param position     Resets the position to the desired
                                 user input
         '''
-        self.start_1 = abs(self.tim4.counter())
+        self.start_1 = abs(self.tim.counter())
         self.pos_1 = position
            
         
@@ -103,7 +107,9 @@ class Encoder:
             return self.delta_2
         
 if __name__ == '__main__':
-    
+    '''
+    Initialization of pin objects must be done in main
+    '''
     in1 = pyb.Pin(pyb.Pin.cpu.B6)
     in2 = pyb.Pin(pyb.Pin.cpu.B7)
     
