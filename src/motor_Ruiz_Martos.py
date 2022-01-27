@@ -1,10 +1,10 @@
 """
     @file           TP_motor.py
     @brief          Driver class that sets up and controls motors.
-    @details        Defines functions used in the task_encoder.
-    @author Dylan Ruiz
-    @author Lucas Martos-Repath
-    @date   January 26, 2022
+    @details        Defines methods used to enable, disable and control the speed of the motors.
+    @author         Dylan Ruiz
+    @author         Lucas Martos-Repath
+    @date           January 26, 2022
         
 """
 
@@ -18,36 +18,36 @@ class TP_Motor:
     '''
     
     def __init__(self, en_pin, in1pin, in2pin, timer):
-        ''' @brief      Initializes and returns a motor object associatted with the DRV8847
-               
+        ''' @brief          Initializes and returns a motor object 
+            @details        Sets up pin and timer objects to a motor. 
+                            Initialization of pin object must be done in Main. 
+                            Initialization of timer occurs in init.
+            @param en_pin   The pyb.pin() object for the enable motor pin
+            @param in1pin   The pyb.pin() object for the PWM of the motor pin for forward direction.
+            @param in2pin   The pyb.pin() object for the PWM of the motor pin for reverse direction.
+            @param timer    The integer value of the timer channel wanted for the PWM.
         '''
-        ## Initializes timer 3
+        ## Initializes timer 
         self.timer = pyb.Timer(timer, freq = 20000)
-        ## Initializes pin B4
+        ## Initializes first motor pin
         self.pinIN1 = in1pin
-        ## Initializes pin B5
+        ## Initializes second motor pin
         self.pinIN2 = in2pin
-        
+        ## Initializes enable pin
         self.pinENABLE = en_pin
         
 
         
-#         ## Initializes pin B0
-#         self.pinIN3 = pyb.Pin(pyb.Pin.cpu.B0)
-#         ## Initializes pin B1
-#         self.pinIN4 = pyb.Pin(pyb.Pin.cpu.B1)
-        ## Configures channel 1 for timer 3
+
+        ## Configures channel 1 for timer 
         self.timer_ch1 = self.timer.channel(1, pyb.Timer.PWM, pin=self.pinIN1)
-        ## Configures channel 2 for timer 3
+        ## Configures channel 2 for timer 
         self.timer_ch2 = self.timer.channel(2, pyb.Timer.PWM, pin=self.pinIN2)
-        ## Configures channel 3 for timer 3
-#         self.t3ch3 = self.tim3.channel(3, pyb.Timer.PWM, pin=self.pinIN3)
-#         ## Configures channel 4 for timer 3
-#         self.t3ch4 = self.tim3.channel(4, pyb.Timer.PWM, pin=self.pinIN4)
+
 # 
        
     def enable(self):
-        ''' @brief      Brings the DRV8847 out of sleep mode
+        ''' @brief      Brings the motor out of sleep mode
         '''
         ## Sets the sleep pin to high
         self.pinENABLE.high()
@@ -57,9 +57,7 @@ class TP_Motor:
     
     
     def disable(self):
-        ''' @brief          Disables selected motor.
-            @param motor    Indicates which motor is selected.
-            
+        ''' @brief       Disables selected motor.
         '''
         # self.motor = motor
         self.pinENABLE.low()
@@ -67,12 +65,12 @@ class TP_Motor:
         pass
         
     def set_duty(self, duty):
-        ''' @brief      Sets the PWm duty cylce for the motor channel
-            @details    This method sets the duty cycle to be sent to the 
-                        motor to the given level. posotive values cause effort
-                        in one dierction, negative values in the opposite
-                        direction
-            @param      duty    A signed number holding the duty cycle
+        ''' @brief              Sets the PWM duty cylce for the motor channel
+            @details            This method sets the duty cycle to be sent to the 
+                                motor to the given level. Positive values cause effort
+                                in one direction, negative values in the opposite
+                                direction
+            @param      duty    A signed inteher holding the duty cycle
                                 of the PWM signal sent to the motor
         '''
         # self.motor = motor

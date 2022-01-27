@@ -94,17 +94,14 @@ class Encoder:
            
         
         
-    def get_delta(self, encoder):
+    def get_delta(self):
         ''' @brief              Returns encoder delta
             @details            Returns the change in position of the encoder
                                 based on the results from the update() fcn
             @return             The change in position of the encoder shaft
                                 between the two most recent updates
         '''
-        if encoder == 1:
-            return self.delta_1
-        elif encoder == 2:
-            return self.delta_2
+        return self.delta_1
         
 if __name__ == '__main__':
     '''
